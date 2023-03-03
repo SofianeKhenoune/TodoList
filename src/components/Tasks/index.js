@@ -3,10 +3,12 @@ import './styles.scss';
 
 import Task from './Task';
 
-function Tasks({data}) {
+function Tasks({data,setTaskState}) {
   return (
     <ul className="list">
-      <Task text='Ketchup'/>
+      {
+        data.map(task => <Task label={task.label} key={task.id} isDone={task.done} taskId={task.id} setTaskState={setTaskState}/>)
+      }
     </ul>
   );
 }
@@ -19,6 +21,7 @@ Tasks.propTypes = {
       done: PropTypes.bool.isRequired,
     })
   ).isRequired,
+  setTaskState : PropTypes.func.isRequired,
 };
 
 export default Tasks;

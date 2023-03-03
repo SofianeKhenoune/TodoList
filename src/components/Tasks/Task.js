@@ -1,19 +1,26 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-function Task({text}) {
+function Task({ label, isDone, taskId, setTaskState }) {
   // Condition si tache faite (isDone ? 'list-item' : '.list-item--done')}
   return (
     <li>
-      <label className="list-item">
-        <input type="checkbox"/>
-        {text}
+      <label className={isDone ? "list-item--done" : "list-item"}>
+        <input
+          id={taskId}
+          type="checkbox"
+          onChange={(event) => {
+            setTaskState(event.target.id);
+          }}
+        />
+        {label}
       </label>
     </li>
   );
 }
 
-Task.propTypes= {
-  text : PropTypes.string.isRequired,
-}
+Task.propTypes = {
+  label: PropTypes.string.isRequired,
+  setTaskState: PropTypes.func.isRequired,
+};
 
 export default Task;
