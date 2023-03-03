@@ -12,7 +12,7 @@ function Task({text}) {
   );
 }
 
-Task.prototype= {
+Task.propTypes= {
   text : PropTypes.string.isRequired,
 }
 
