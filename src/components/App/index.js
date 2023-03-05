@@ -17,8 +17,8 @@ class App extends React.Component {
     this.handleAddTask = this.handleAddTask.bind(this);
   }
 
-  sortTasks(arrayTasks){
-    return arrayTasks.sort((task) => {
+  sortTasks(arrayOfTasks){
+    return arrayOfTasks.sort((task) => {
       if (!task.done) {
         return -1;
       }
