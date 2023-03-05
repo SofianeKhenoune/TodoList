@@ -6,12 +6,10 @@ function Form({ handleAddTask }) {
     <form
       className="form"
       onSubmit={(e) => {
-        
         const taskToAdd = document.querySelector(".form-item").value;
         handleAddTask(taskToAdd);
         e.target.reset();
         e.preventDefault();
-        
       }}
     >
       <input

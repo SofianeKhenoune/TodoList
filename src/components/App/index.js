@@ -38,10 +38,10 @@ class App extends React.Component {
     });
   }
 
-  setTaskState(taskId) {
+  setTaskState(taskId, taskStatusToUpdate) {
     let newData = [...this.state.data];
     let newTaskToUpdate = { ...newData[taskId] };
-    newTaskToUpdate.done = true;
+    newTaskToUpdate.done = taskStatusToUpdate;
     newData[taskId] = newTaskToUpdate;
     this.setState({
       data: newData,

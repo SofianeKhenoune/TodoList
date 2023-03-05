@@ -10,7 +10,9 @@ function Task({ label, isDone, taskId, setTaskState }) {
           id={taskId}
           type="checkbox"
           onChange={(event) => {
-            setTaskState(event.target.id);
+            let taskIdToUpdate = event.target.id;
+            let taskStatusToUpdate = event.target.checked;
+            setTaskState(taskIdToUpdate, taskStatusToUpdate);
           }}
         />
          {label}
