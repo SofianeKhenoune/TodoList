@@ -9,12 +9,20 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data,
+      data: this.sortTasks(data),
       taskToAdd: "",
     };
 
     this.getNbTasksNotDone = this.getNbTasksNotDone.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
+  }
+
+  sortTasks(arrayTasks){
+    return arrayTasks.sort((task) => {
+      if (!task.done) {
+        return -1;
+      }
+    })
   }
 
   getNbTasksNotDone() {
@@ -43,7 +51,7 @@ class App extends React.Component {
     newTaskToUpdate.done = taskStatusToUpdate;
     newData[taskId] = newTaskToUpdate;
     this.setState({
-      data: newData,
+      data: this.sortTasks(newData),
     });
   }
   render() {

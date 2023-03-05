@@ -13,7 +13,7 @@ function Tasks({ data, setTaskState }) {
           taskId={data.indexOf(task)}
           setTaskState={setTaskState}
         />
-      ))}
+      )).sort()}
     </ul>
   );
 }
