@@ -29,7 +29,6 @@ class App extends React.Component {
 
   handleAddTask(taskToAdd) {
     const taskId = this.generateNewTaskID();
-    console.log(taskId);
     let newData = [...this.state.data];
     let newTaskToUpdate = { id: taskId, label: taskToAdd, done: false };
     newData.push(newTaskToUpdate);

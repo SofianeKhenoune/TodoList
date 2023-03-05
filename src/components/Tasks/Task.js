@@ -15,7 +15,7 @@ function Task({ label, isDone, taskId, setTaskState }) {
             setTaskState(taskIdToUpdate, taskStatusToUpdate);
           }}
         />
-         {label}
+        {label}
       </label>
     </li>
   );
@@ -25,7 +25,7 @@ Task.propTypes = {
   label: PropTypes.string.isRequired,
   setTaskState: PropTypes.func.isRequired,
   isDone: PropTypes.bool.isRequired,
-  taskId : PropTypes.number.isRequired
+  taskId: PropTypes.number.isRequired,
 };
 
 export default Task;
