@@ -6,13 +6,14 @@ function Task({ label, isDone, taskId, setTaskState }) {
     <li>
       <label className={isDone ? "list-item--done" : "list-item"}>
         <input
+          checked={isDone && "checked"}
           id={taskId}
           type="checkbox"
           onChange={(event) => {
             setTaskState(event.target.id);
           }}
         />
-        {label}
+         {label}
       </label>
     </li>
   );
@@ -21,6 +22,8 @@ function Task({ label, isDone, taskId, setTaskState }) {
 Task.propTypes = {
   label: PropTypes.string.isRequired,
   setTaskState: PropTypes.func.isRequired,
+  isDone: PropTypes.bool.isRequired,
+  taskId : PropTypes.number.isRequired
 };
 
 export default Task;
