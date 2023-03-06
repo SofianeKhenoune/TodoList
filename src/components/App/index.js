@@ -58,9 +58,8 @@ class App extends React.PureComponent {
 
   setTaskState(taskIdUpdate, taskStatusToUpdate) {
     let newData = [...this.state.data];
-    let newTaskToUpdate = { ...newData[taskIdUpdate] };
+    let newTaskToUpdate = newData.find(task => task.id === taskIdUpdate)
     newTaskToUpdate.done = taskStatusToUpdate;
-    newData[taskId] = newTaskToUpdate;
     this.setState({
       data: this.sortTasks(newData),
     });
