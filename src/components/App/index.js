@@ -15,6 +15,7 @@ class App extends React.PureComponent {
 
     this.getNbTasksNotDone = this.getNbTasksNotDone.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
+    this.handleAddTask = this.handleAddTask.bind(this);
   }
 
   sortTasks(arrayOfTasks) {
@@ -49,6 +50,17 @@ class App extends React.PureComponent {
       taskToAdd: "",
     });
   }
+  removeTaskInState(taskId){
+    let newData = [...this.state.data];
+    newData = newData.filter((task) => {
+      if (task.id !== taskId) {
+        return task;
+      }
+    });
+    this.setState({
+      data: this.sortTasks(newData),
+    });
+  }
 
   setNewTaskLabel(NewTaskLabel) {
     this.setState({
@@ -56,10 +68,10 @@ class App extends React.PureComponent {
     });
   }
 
-  setTaskState(taskIdUpdate, taskStatusToUpdate) {
+  setTaskState(taskIdUpdate) {
     let newData = [...this.state.data];
     let newTaskToUpdate = newData.find(task => task.id === taskIdUpdate)
-    newTaskToUpdate.done = taskStatusToUpdate;
+    newTaskToUpdate.done = !newTaskToUpdate.done;
     this.setState({
       data: this.sortTasks(newData),
     });
@@ -75,7 +87,7 @@ class App extends React.PureComponent {
           setNewTaskLabel={this.setNewTaskLabel.bind(this)}
         />
         <Counter nbTasksNotDone={this.getNbTasksNotDone()} />
-        <Tasks data={data} setTaskState={this.setTaskState.bind(this)} />
+        <Tasks data={data} setTaskState={this.setTaskState.bind(this)} removeTaskInState={this.removeTaskInState.bind(this)} />
       </div>
     );
   }

@@ -10,3 +10,22 @@
   background: #eeeeee57;
   text-decoration: line-through;
 }
+
+.li-item {
+  display: flex;
+  align-items: center;
+
+  label {
+    flex-grow: 1;
+    margin-right: 0.5em;
+  }
+
+  span {
+    padding: 1em;
+    background: #eee;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+
+  }
+}
