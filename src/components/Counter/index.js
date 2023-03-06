@@ -1,5 +1,6 @@
 import './styles.scss';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 function Counter({nbTasksNotDone}) {
   return (
@@ -10,4 +11,8 @@ function Counter({nbTasksNotDone}) {
 Counter.propTypes = {
   nbTasksNotDone : PropTypes.number.isRequired,
 }
-export default Counter;
+
+Counter.defaultProps ={
+  nbTasksNotDone : 0,
+}
+export default React.memo(Counter);

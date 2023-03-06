@@ -5,7 +5,7 @@ import Form from "../Form";
 import Tasks from "../Tasks";
 import "./styles.scss";
 
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,16 +17,16 @@ class App extends React.Component {
     this.handleAddTask = this.handleAddTask.bind(this);
   }
 
-  sortTasks(arrayOfTasks){
+  sortTasks(arrayOfTasks) {
     return arrayOfTasks.sort((task) => {
       if (!task.done) {
         return -1;
       }
-    })
+    });
   }
 
   getNbTasksNotDone() {
-    const tasksNotDone = this.state.data.filter((task) => task.done === false);
+    const tasksNotDone = this.state.data.filter((task) => !task.done);
     return tasksNotDone.length;
   }
 
@@ -35,19 +35,30 @@ class App extends React.Component {
     return Math.max(...idsInState) + 1;
   }
 
-  handleAddTask(taskToAdd) {
+  handleAddTask() {
     const taskId = this.generateNewTaskID();
     let newData = [...this.state.data];
-    let newTaskToUpdate = { id: taskId, label: taskToAdd, done: false };
+    let newTaskToUpdate = {
+      id: taskId,
+      label: this.state.taskToAdd,
+      done: false,
+    };
     newData.push(newTaskToUpdate);
     this.setState({
-      data: newData,
+      data: this.sortTasks(newData),
+      taskToAdd: "",
     });
   }
 
-  setTaskState(taskId, taskStatusToUpdate) {
+  setNewTaskLabel(NewTaskLabel) {
+    this.setState({
+      taskToAdd: NewTaskLabel,
+    });
+  }
+
+  setTaskState(taskIdUpdate, taskStatusToUpdate) {
     let newData = [...this.state.data];
-    let newTaskToUpdate = { ...newData[taskId] };
+    let newTaskToUpdate = { ...newData[taskIdUpdate] };
     newTaskToUpdate.done = taskStatusToUpdate;
     newData[taskId] = newTaskToUpdate;
     this.setState({
@@ -55,17 +66,17 @@ class App extends React.Component {
     });
   }
   render() {
+    const { data, taskToAdd } = this.state;
     return (
       <div className="app">
         <Form
           handleAddTask={this.handleAddTask}
           handleInputChange={this.handleInputChange}
+          taskToAdd={taskToAdd}
+          setNewTaskLabel={this.setNewTaskLabel.bind(this)}
         />
         <Counter nbTasksNotDone={this.getNbTasksNotDone()} />
-        <Tasks
-          data={this.state.data}
-          setTaskState={this.setTaskState.bind(this)}
-        />
+        <Tasks data={data} setTaskState={this.setTaskState.bind(this)} />
       </div>
     );
   }

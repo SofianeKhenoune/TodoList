@@ -1,14 +1,13 @@
 import "./styles.scss";
 import PropTypes from "prop-types";
+import React from "react";
 
-function Form({ handleAddTask }) {
+function Form({ handleAddTask, taskToAdd, setNewTaskLabel }) {
   return (
     <form
       className="form"
       onSubmit={(e) => {
-        const taskToAdd = document.querySelector(".form-item").value;
-        handleAddTask(taskToAdd);
-        e.target.reset();
+        handleAddTask();
         e.preventDefault();
       }}
     >
@@ -16,6 +15,10 @@ function Form({ handleAddTask }) {
         type="text"
         className="form-item"
         placeholder="Ajouter une tâche"
+        value={taskToAdd}
+        onChange={(e) => {
+          setNewTaskLabel(e.target.value);
+        }}
       />
     </form>
   );
@@ -23,5 +26,7 @@ function Form({ handleAddTask }) {
 
 Form.propTypes = {
   handleAddTask: PropTypes.func.isRequired,
-};
-export default Form;
+  setNewTaskLabel: PropTypes.func,
+  taskToAdd: PropTypes.string.isRequired
+}
+export default React.memo(Form);

@@ -1,31 +1,30 @@
 import PropTypes from "prop-types";
+import React from "react";
 
-function Task({ label, isDone, taskId, setTaskState }) {
+const Task = React.memo(({ label, done, id, setTaskState }) => {
   // Condition si tache faite (isDone ? 'list-item' : '.list-item--done')}
   return (
     <li>
-      <label className={isDone ? "list-item--done" : "list-item"}>
+      <label htmlFor="checkbox" className={done ? "list-item list-item--done" : "list-item"}>
         <input
-          checked={isDone && "checked"}
-          id={taskId}
+          checked={done}
+          id={id}
           type="checkbox"
           onChange={(event) => {
-            let taskIdToUpdate = event.target.id;
-            let taskStatusToUpdate = event.target.checked;
-            setTaskState(taskIdToUpdate, taskStatusToUpdate);
+            setTaskState(event.target.id, event.target.checked);
           }}
         />
         {label}
       </label>
     </li>
   );
-}
+});
 
 Task.propTypes = {
   label: PropTypes.string.isRequired,
   setTaskState: PropTypes.func.isRequired,
-  isDone: PropTypes.bool.isRequired,
-  taskId: PropTypes.number.isRequired,
+  done: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
-export default Task;
+export default React.memo(Task);

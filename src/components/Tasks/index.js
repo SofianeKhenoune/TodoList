@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import React from "react";
 import "./styles.scss";
 import Task from "./Task";
 
@@ -6,14 +7,12 @@ function Tasks({ data, setTaskState }) {
   return (
     <ul className="list">
       {data.map((task) => (
-        <Task
-          label={task.label}
+        <Task  
           key={task.id}
-          isDone={task.done}
-          taskId={data.indexOf(task)}
           setTaskState={setTaskState}
+          {...task}
         />
-      )).sort()}
+      ))}
     </ul>
   );
 }
@@ -29,4 +28,4 @@ Tasks.propTypes = {
   setTaskState: PropTypes.func.isRequired,
 };
 
-export default Tasks;
+export default React.memo(Tasks);
