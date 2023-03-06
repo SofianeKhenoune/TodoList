@@ -2,7 +2,7 @@ import "./styles.scss";
 import PropTypes from "prop-types";
 import React from "react";
 
-function Form({ handleAddTask, taskToAdd, setNewTaskLabel }) {
+function Form({ handleAddTask, taskToAdd, setNewTaskLabel,  /*focusInput*/}) {
   return (
     <form
       className="form"
@@ -13,6 +13,7 @@ function Form({ handleAddTask, taskToAdd, setNewTaskLabel }) {
     >
       <input
         type="text"
+        /*ref={focusInput}*/
         className="form-item"
         placeholder="Ajouter une tâche"
         value={taskToAdd}
@@ -25,6 +26,7 @@ function Form({ handleAddTask, taskToAdd, setNewTaskLabel }) {
 }
 
 Form.propTypes = {
+  /*focusInput: PropTypes.object.isRequired,*/
   handleAddTask: PropTypes.func.isRequired,
   setNewTaskLabel: PropTypes.func,
   taskToAdd: PropTypes.string.isRequired

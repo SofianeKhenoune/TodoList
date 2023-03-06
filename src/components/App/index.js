@@ -8,11 +8,13 @@ import "./styles.scss";
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
+
     this.state = {
       data: this.sortTasks(data),
       taskToAdd: "",
     };
-
+    this.textInput = React.createRef();
+    console.log(this.textInput);
     this.getNbTasksNotDone = this.getNbTasksNotDone.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
@@ -25,6 +27,9 @@ class App extends React.PureComponent {
       }
     });
   }
+ /*  componentDidMount() {
+    this.textInput.current.focusTextInput();
+  } */
 
   getNbTasksNotDone() {
     const tasksNotDone = this.state.data.filter((task) => !task.done);
@@ -32,6 +37,9 @@ class App extends React.PureComponent {
   }
 
   generateNewTaskID() {
+    if (this.state.data.length === 0) {
+      return 1;
+    }
     const idsInState = this.state.data.map((task) => task.id);
     return Math.max(...idsInState) + 1;
   }
@@ -50,13 +58,9 @@ class App extends React.PureComponent {
       taskToAdd: "",
     });
   }
-  removeTaskInState(taskId){
-    let newData = [...this.state.data];
-    newData = newData.filter((task) => {
-      if (task.id !== taskId) {
-        return task;
-      }
-    });
+  removeTaskInState(taskId) {
+   
+    let newData = this.state.data.filter((task) => task.id !== taskId);
     this.setState({
       data: this.sortTasks(newData),
     });
@@ -70,12 +74,15 @@ class App extends React.PureComponent {
 
   setTaskState(taskIdUpdate) {
     let newData = [...this.state.data];
-    let newTaskToUpdate = newData.find(task => task.id === taskIdUpdate)
+    let newTaskToUpdate = newData.find((task) => task.id === taskIdUpdate);
     newTaskToUpdate.done = !newTaskToUpdate.done;
     this.setState({
       data: this.sortTasks(newData),
     });
   }
+ /*  focusTextInput() {
+    this.textInput.current.focus();
+  } */
   render() {
     const { data, taskToAdd } = this.state;
     return (
@@ -85,9 +92,14 @@ class App extends React.PureComponent {
           handleInputChange={this.handleInputChange}
           taskToAdd={taskToAdd}
           setNewTaskLabel={this.setNewTaskLabel.bind(this)}
+          /*focusInput={this.textInput}*/
         />
         <Counter nbTasksNotDone={this.getNbTasksNotDone()} />
-        <Tasks data={data} setTaskState={this.setTaskState.bind(this)} removeTaskInState={this.removeTaskInState.bind(this)} />
+        <Tasks
+          data={data}
+          setTaskState={this.setTaskState.bind(this)}
+          removeTaskInState={this.removeTaskInState.bind(this)}
+        />
       </div>
     );
   }
