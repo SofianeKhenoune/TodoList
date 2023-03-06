@@ -13,8 +13,6 @@ class App extends React.PureComponent {
       data: this.sortTasks(data),
       taskToAdd: "",
     };
-    this.textInput = React.createRef();
-    console.log(this.textInput);
     this.getNbTasksNotDone = this.getNbTasksNotDone.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
@@ -27,10 +25,7 @@ class App extends React.PureComponent {
       }
     });
   }
- /*  componentDidMount() {
-    this.textInput.current.focusTextInput();
-  } */
-
+  
   getNbTasksNotDone() {
     const tasksNotDone = this.state.data.filter((task) => !task.done);
     return tasksNotDone.length;
@@ -45,11 +40,12 @@ class App extends React.PureComponent {
   }
 
   handleAddTask() {
+    const { data, taskToAdd } = this.state;
     const taskId = this.generateNewTaskID();
-    let newData = [...this.state.data];
+    let newData = [...data];
     let newTaskToUpdate = {
       id: taskId,
-      label: this.state.taskToAdd,
+      label: taskToAdd,
       done: false,
     };
     newData.push(newTaskToUpdate);
@@ -59,7 +55,6 @@ class App extends React.PureComponent {
     });
   }
   removeTaskInState(taskId) {
-   
     let newData = this.state.data.filter((task) => task.id !== taskId);
     this.setState({
       data: this.sortTasks(newData),
@@ -80,9 +75,6 @@ class App extends React.PureComponent {
       data: this.sortTasks(newData),
     });
   }
- /*  focusTextInput() {
-    this.textInput.current.focus();
-  } */
   render() {
     const { data, taskToAdd } = this.state;
     return (
