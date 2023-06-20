@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React from "react";
 import { MdDeleteForever } from "react-icons/md";
 
 function Task({ label, done, id, setTaskState, removeTaskInState }) {
@@ -44,4 +43,4 @@ Task.propTypes = {
   setTaskState: PropTypes.func.isRequired,
 };
 
-export default React.memo(Task);
+export default Task;

@@ -1,13 +1,12 @@
 import PropTypes from "prop-types";
-import React from "react";
-import "./styles.scss";
 import Task from "./Task";
+import "./styles.scss";
 
-function Tasks({ data, setTaskState,removeTaskInState }) {
+function Tasks({ tasks, setTaskState, removeTaskInState }) {
   return (
     <ul className="list">
-      {data.map((task) => (
-        <Task  
+      {tasks.map((task) => (
+        <Task
           key={task.id}
           removeTaskInState={removeTaskInState}
           setTaskState={setTaskState}
@@ -19,13 +18,15 @@ function Tasks({ data, setTaskState,removeTaskInState }) {
 }
 
 Tasks.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    label: PropTypes.string.isRequired,
-    done: PropTypes.bool.isRequired
-  })).isRequired,
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      done: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
   removeTaskInState: PropTypes.any,
-  setTaskState: PropTypes.func.isRequired
-}
+  setTaskState: PropTypes.func.isRequired,
+};
 
-export default React.memo(Tasks);
+export default Tasks;

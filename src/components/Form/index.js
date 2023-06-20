@@ -1,43 +1,38 @@
-import "./styles.scss";
 import PropTypes from "prop-types";
-import React from "react";
+import { useEffect, useRef } from "react";
+import "./styles.scss";
 
-class Form extends React.Component {
-  constructor(props) {
-    super(props);
-    this.textInput = React.createRef();
-  }
-  componentDidMount() {
-    this.textInput.current.focus();
-  }
-  render() {
-    const { taskToAdd, setNewTaskLabel, handleAddTask } = this.props;
-    return (
-      <form
-        className="form"
-        onSubmit={(e) => {
-          handleAddTask();
-          e.preventDefault();
+function Form({ taskToAdd, handleInputChange, handleAddTask }) {
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  return (
+    <form
+      className="form"
+      onSubmit={(e) => {
+        handleAddTask();
+        e.preventDefault();
+      }}
+    >
+      <input
+        type="text"
+        ref={inputRef}
+        className="form-item"
+        placeholder="Ajouter une tâche"
+        value={taskToAdd}
+        onChange={(e) => {
+          handleInputChange(e.target.value);
         }}
-      >
-        <input
-          type="text"
-          ref={this.textInput}
-          className="form-item"
-          placeholder="Ajouter une tâche"
-          value={taskToAdd}
-          onChange={(e) => {
-            setNewTaskLabel(e.target.value);
-          }}
-        />
-      </form>
-    );
-  }
+      />
+    </form>
+  );
 }
 
 Form.propTypes = {
   handleAddTask: PropTypes.func.isRequired,
-  setNewTaskLabel: PropTypes.func,
+  handleInputChange: PropTypes.func,
   taskToAdd: PropTypes.string.isRequired,
 };
-export default React.memo(Form);
+export default Form;

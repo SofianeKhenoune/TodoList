@@ -1,26 +1,32 @@
-import data from "../../data/tasks";
-import React from "react";
+import { useEffect, useState } from "react";
 import Counter from "../Counter";
 import Form from "../Form";
 import Tasks from "../Tasks";
 import "./styles.scss";
+useState;
 
-class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
+function App() {
+  const [tasks, setTasks] = useState(() => {
+    // get the todos from localstorage
+    const savedTodos = localStorage.getItem("todos");
+    // if there are todos stored
+    if (savedTodos) {
+      // return the parsed JSON object back to a javascript object
+      return JSON.parse(savedTodos);
+      // otherwise
+    } else {
+      // return an empty array
+      return [];
+    }
+  });
+  const [taskToAdd, setTaskToAdd] = useState("");
 
-    this.state = {
-      data: this.sortTasks(data),
-      taskToAdd: "",
-    };
-    this.getNbTasksNotDone = this.getNbTasksNotDone.bind(this);
-    this.handleAddTask = this.handleAddTask.bind(this);
-    this.setNewTaskLabel = this.setNewTaskLabel.bind(this);
-    this.setTaskState = this.setTaskState.bind(this);
-    this.removeTaskInState = this.removeTaskInState.bind(this);
-  }
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(tasks));
+  }),
+    [tasks];
 
-  sortTasks(arrayOfTasks) {
+  function sortTasks(arrayOfTasks) {
     return arrayOfTasks.sort((task) => {
       if (!task.done) {
         return -1;
@@ -28,75 +34,64 @@ class App extends React.PureComponent {
     });
   }
 
-  getNbTasksNotDone() {
-    const tasksNotDone = this.state.data.filter((task) => !task.done);
+  function getNbTasksNotDone() {
+    const tasksNotDone = tasks.filter((task) => !task.done);
     return tasksNotDone.length;
   }
 
-  generateNewTaskID() {
-    if (this.state.data.length === 0) {
+  function generateNewTaskID() {
+    if (tasks.length === 0) {
       return 1;
     }
-    const idsInState = this.state.data.map((task) => task.id);
+    const idsInState = tasks.map((task) => task.id);
     return Math.max(...idsInState) + 1;
   }
 
-  handleAddTask() {
-    const { data, taskToAdd } = this.state;
-    const taskId = this.generateNewTaskID();
-    let newData = [...data];
-    let newTaskToUpdate = {
-      id: taskId,
-      label: taskToAdd,
-      done: false,
-    };
+  function handleAddTask() {
+    if (taskToAdd != "") {
+      const taskId = generateNewTaskID();
+      let newTaskToUpdate = {
+        id: taskId,
+        label: taskToAdd,
+        done: false,
+      };
+      setTasks([...tasks, newTaskToUpdate]);
+    }
+
     newData.push(newTaskToUpdate);
-    this.setState({
-      data: this.sortTasks(newData),
-      taskToAdd: "",
-    });
   }
-  removeTaskInState(taskId) {
-    let newData = this.state.data.filter((task) => task.id !== taskId);
-    this.setState({
-      data: this.sortTasks(newData),
-    });
+  function removeTaskInState(taskId) {
+    let newData = tasks.filter((task) => task.id !== taskId);
+    setTasks(newData);
   }
 
-  setNewTaskLabel(NewTaskLabel) {
-    this.setState({
-      taskToAdd: NewTaskLabel,
-    });
+  function handleInputChange(NewTaskLabel) {
+    setTaskToAdd(NewTaskLabel);
   }
 
-  setTaskState(taskIdUpdate) {
-    let newData = [...this.state.data];
+  function setTaskState(taskIdUpdate) {
+    const newData = [...tasks];
     let newTaskToUpdate = newData.find((task) => task.id === taskIdUpdate);
     newTaskToUpdate.done = !newTaskToUpdate.done;
-    this.setState({
-      data: this.sortTasks(newData),
-    });
+    setTasks(newData);
   }
-  render() {
-    const { data, taskToAdd } = this.state;
-    return (
-      <div className="app">
-        <Form
-          handleAddTask={this.handleAddTask}
-          handleInputChange={this.handleInputChange}
-          taskToAdd={taskToAdd}
-          setNewTaskLabel={this.setNewTaskLabel}
-          /*focusInput={this.textInput}*/
-        />
-        <Counter nbTasksNotDone={this.getNbTasksNotDone()} />
-        <Tasks
-          data={data}
-          setTaskState={this.setTaskState}
-          removeTaskInState={this.removeTaskInState}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="app">
+      <Form
+        handleAddTask={handleAddTask}
+        handleInputChange={setTaskToAdd}
+        taskToAdd={taskToAdd}
+        handleInputChange={handleInputChange}
+        /*focusInput={this.textInput}*/
+      />
+      <Counter nbTasksNotDone={getNbTasksNotDone()} />
+      <Tasks
+        tasks={tasks}
+        setTaskState={setTaskState}
+        removeTaskInState={removeTaskInState}
+      />
+    </div>
+  );
 }
 
 export default App;
