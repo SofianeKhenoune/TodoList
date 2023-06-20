@@ -22,9 +22,9 @@ function Task({ label, done, id, setTaskState, removeTaskInState }) {
       </label>
       <MdDeleteForever
         color="#b53c3c"
-        size={40}
+        size={45}
         style={{
-          backgroundColor: "#fff",
+          backgroundColor: "rgba(255, 255, 255, 0.6)",
           borderRadius: "0.5em",
           cursor: "pointer",
         }}
