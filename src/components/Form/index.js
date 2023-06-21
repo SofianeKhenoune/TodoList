@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import "./styles.scss";
@@ -21,7 +22,7 @@ function Form({ taskToAdd, handleInputChange, handleAddTask }) {
         ref={inputRef}
         className="form-item"
         placeholder="Ajouter une tâche"
-        value={taskToAdd}
+        value={DOMPurify.sanitize(taskToAdd)}
         onChange={(e) => {
           handleInputChange(e.target.value);
         }}
