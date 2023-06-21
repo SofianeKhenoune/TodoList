@@ -1,0 +1,22 @@
+.list-item {
+  background: #eee;
+  display: block;
+  border-radius: 3px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+.list-item--done {
+  background: #eeeeee57;
+  text-decoration: line-through;
+}
+
+.li-item {
+  display: flex;
+  align-items: center;
+
+  label {
+    flex-grow: 1;
+    margin-right: 0.5em;
+  }
+}
