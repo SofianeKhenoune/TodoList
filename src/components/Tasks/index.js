@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Task from "./Task";
 import "./styles.scss";
 
-function Tasks({ tasks, setTaskState, removeTaskInState }) {
+function Tasks({ tasks, setTaskState, removeTaskInState, showModal }) {
   return (
     <ul className="list">
       {tasks.map((task) => (
@@ -10,6 +10,7 @@ function Tasks({ tasks, setTaskState, removeTaskInState }) {
           key={task.id}
           removeTaskInState={removeTaskInState}
           setTaskState={setTaskState}
+          showModal={showModal}
           {...task}
         />
       ))}

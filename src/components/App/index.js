@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Counter from "../Counter";
 import Form from "../Form";
+import Modal from "../Modal";
 import Tasks from "../Tasks";
 import "./styles.scss";
 useState;
@@ -20,6 +21,7 @@ function App() {
     }
   });
   const [taskToAdd, setTaskToAdd] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(tasks));
@@ -63,7 +65,12 @@ function App() {
     let newData = tasks.filter((task) => task.id !== taskId);
     setTasks(newData);
   }
-
+  function handleUpdateTask(taskId, newLabel) {
+    const newData = [...tasks];
+    const taskToUpdate = tasks.find((task) => task.id === taskId);
+    taskToUpdate.label = newLabel;
+    setTasks(sortTasks(newData));
+  }
   function setTaskState(taskIdUpdate) {
     const newData = [...tasks];
     const taskToUpdate = tasks.find((task) => task.id === taskIdUpdate);
@@ -83,6 +90,11 @@ function App() {
         tasks={tasks}
         setTaskState={setTaskState}
         removeTaskInState={removeTaskInState}
+      />
+      <Modal
+        taskToUpdate={{ id: 100, label: "sofiane", done: false }}
+        isVisible={showModal}
+        handleUpdateTask={handleUpdateTask}
       />
     </div>
   );
