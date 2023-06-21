@@ -1,10 +1,28 @@
 import DOMPurify from "dompurify";
-import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTaskToAdd, setTasksInState } from "../../actions/tasks";
+import { generateNewTaskID, sortTasks } from "../../selectors/tasks";
 import "./styles.scss";
 
-function Form({ taskToAdd, handleInputChange, handleAddTask }) {
+function Form() {
   const inputRef = useRef(null);
+  const tasks = useSelector((state) => state.tasks.tasks);
+  const taskToAdd = useSelector((state) => state.tasks.taskToAdd);
+  const dispatch = useDispatch();
+
+  function handleAddTask() {
+    if (taskToAdd != "") {
+      const taskId = generateNewTaskID(tasks);
+      let newTask = {
+        id: taskId,
+        label: taskToAdd,
+        done: false,
+      };
+      dispatch(setTasksInState(sortTasks([...tasks, newTask])));
+      dispatch(getTaskToAdd(""));
+    }
+  }
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -24,16 +42,11 @@ function Form({ taskToAdd, handleInputChange, handleAddTask }) {
         placeholder="Ajouter une tâche"
         value={DOMPurify.sanitize(taskToAdd)}
         onChange={(e) => {
-          handleInputChange(e.target.value);
+          dispatch(getTaskToAdd(e.target.value));
         }}
       />
     </form>
   );
 }
 
-Form.propTypes = {
-  handleAddTask: PropTypes.func.isRequired,
-  handleInputChange: PropTypes.func,
-  taskToAdd: PropTypes.string.isRequired,
-};
 export default Form;

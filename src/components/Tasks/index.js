@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import Task from "./Task";
 import "./styles.scss";
 
-function Tasks({ tasks, setTaskState, removeTaskInState, showModal }) {
+function Tasks({ removeTaskInState, setTaskState }) {
+  const tasks = useSelector((state) => state.tasks.tasks);
+
   return (
     <ul className="list">
       {tasks.map((task) => (
@@ -10,7 +13,6 @@ function Tasks({ tasks, setTaskState, removeTaskInState, showModal }) {
           key={task.id}
           removeTaskInState={removeTaskInState}
           setTaskState={setTaskState}
-          showModal={showModal}
           {...task}
         />
       ))}
@@ -19,14 +21,7 @@ function Tasks({ tasks, setTaskState, removeTaskInState, showModal }) {
 }
 
 Tasks.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired,
-      done: PropTypes.bool.isRequired,
-    })
-  ).isRequired,
-  removeTaskInState: PropTypes.any,
+  removeTaskInState: PropTypes.func.isRequired,
   setTaskState: PropTypes.func.isRequired,
 };
 
