@@ -50,30 +50,25 @@ function App() {
   function handleAddTask() {
     if (taskToAdd != "") {
       const taskId = generateNewTaskID();
-      let newTaskToUpdate = {
+      let newTask = {
         id: taskId,
         label: taskToAdd,
         done: false,
       };
-      setTasks([...tasks, newTaskToUpdate]);
+      setTasks(sortTasks([...tasks, newTask]));
+      setTaskToAdd("");
     }
-
-    newData.push(newTaskToUpdate);
   }
   function removeTaskInState(taskId) {
     let newData = tasks.filter((task) => task.id !== taskId);
     setTasks(newData);
   }
 
-  function handleInputChange(NewTaskLabel) {
-    setTaskToAdd(NewTaskLabel);
-  }
-
   function setTaskState(taskIdUpdate) {
     const newData = [...tasks];
-    let newTaskToUpdate = newData.find((task) => task.id === taskIdUpdate);
-    newTaskToUpdate.done = !newTaskToUpdate.done;
-    setTasks(newData);
+    const taskToUpdate = tasks.find((task) => task.id === taskIdUpdate);
+    taskToUpdate.done = !taskToUpdate.done;
+    setTasks(sortTasks(newData));
   }
   return (
     <div className="app">
@@ -81,7 +76,6 @@ function App() {
         handleAddTask={handleAddTask}
         handleInputChange={setTaskToAdd}
         taskToAdd={taskToAdd}
-        handleInputChange={handleInputChange}
         /*focusInput={this.textInput}*/
       />
       <Counter nbTasksNotDone={getNbTasksNotDone()} />

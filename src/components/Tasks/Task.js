@@ -1,7 +1,14 @@
 import PropTypes from "prop-types";
 import { MdDeleteForever } from "react-icons/md";
 
-function Task({ label, done, id, setTaskState, removeTaskInState }) {
+function Task({
+  label,
+  done,
+  id,
+  setTaskState,
+  removeTaskInState,
+  setTaskUpdated,
+}) {
   // Condition si tache faite (isDone ? 'list-item' : '.list-item--done')}
   return (
     <li className="li-item">
