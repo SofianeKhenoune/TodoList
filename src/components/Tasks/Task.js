@@ -1,34 +1,35 @@
 import PropTypes from "prop-types";
 import { BiEdit } from "react-icons/bi";
-import { MdDeleteForever } from "react-icons/md";
+import {
+  MdDeleteForever,
+  MdOutlineDoneOutline,
+  MdRemoveDone,
+} from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { getTaskToUpdate, setToggleModal } from "../../actions/tasks";
 
 function Task({ label, done, id, setTaskState, removeTaskInState }) {
   const dispatch = useDispatch();
   const iconStyle = {
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
-    borderRadius: "0.5em",
+    backgroundColor: "rgba(255,255,255,0.8)",
     cursor: "pointer",
     marginRight: "0.5em",
+    borderRadius: "0.3em",
+    width: "1.5em",
+    height: "1.5em",
   };
-  const displayIcon = !done ? "block" : "none";
+  const doneIcon = done && {
+    display: "none",
+  };
   // Condition si tache faite (isDone ? 'list-item' : '.list-item--done')}
   return (
     <div className="task">
-      <p
-        className={done ? "list-item list-item--done" : "list-item"}
-        id={id}
-        onClick={() => {
-          setTaskState(id);
-        }}
-      >
+      <p className={done ? "list-item list-item--done" : "list-item"} id={id}>
         {label}
       </p>
       <BiEdit
         color="#165955"
-        size={45}
-        style={{ ...iconStyle, display: displayIcon }}
+        style={{ ...iconStyle, ...doneIcon }}
         onClick={() => {
           dispatch(setToggleModal());
           dispatch(getTaskToUpdate({ id: id, label: label, done: done }));
@@ -36,12 +37,28 @@ function Task({ label, done, id, setTaskState, removeTaskInState }) {
       />
       <MdDeleteForever
         color="#b53c3c"
-        size={45}
         style={iconStyle}
         onClick={() => {
           removeTaskInState(id);
         }}
       />
+      {!done ? (
+        <MdOutlineDoneOutline
+          color="#165955"
+          style={iconStyle}
+          onClick={() => {
+            setTaskState(id);
+          }}
+        />
+      ) : (
+        <MdRemoveDone
+          color="#165955"
+          style={iconStyle}
+          onClick={() => {
+            setTaskState(id);
+          }}
+        />
+      )}
     </div>
   );
 }
