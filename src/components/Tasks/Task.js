@@ -15,8 +15,8 @@ function Task({ label, done, id, setTaskState, removeTaskInState }) {
     cursor: "pointer",
     marginRight: "0.5em",
     borderRadius: "0.3em",
-    width: "1.5em",
-    height: "1.5em",
+    width: "2em",
+    height: "2em",
   };
   const doneIcon = done && {
     display: "none",
