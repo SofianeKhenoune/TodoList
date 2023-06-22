@@ -27,38 +27,40 @@ function Task({ label, done, id, setTaskState, removeTaskInState }) {
       <p className={done ? "list-item list-item--done" : "list-item"} id={id}>
         {label}
       </p>
-      <BiEdit
-        color="#165955"
-        style={{ ...iconStyle, ...doneIcon }}
-        onClick={() => {
-          dispatch(setToggleModal());
-          dispatch(getTaskToUpdate({ id: id, label: label, done: done }));
-        }}
-      />
-      <MdDeleteForever
-        color="#b53c3c"
-        style={iconStyle}
-        onClick={() => {
-          removeTaskInState(id);
-        }}
-      />
-      {!done ? (
-        <MdOutlineDoneOutline
+      <div class="icons">
+        <BiEdit
           color="#165955"
-          style={iconStyle}
+          style={{ ...iconStyle, ...doneIcon }}
           onClick={() => {
-            setTaskState(id);
+            dispatch(setToggleModal());
+            dispatch(getTaskToUpdate({ id: id, label: label, done: done }));
           }}
         />
-      ) : (
-        <MdRemoveDone
-          color="#165955"
+        <MdDeleteForever
+          color="#b53c3c"
           style={iconStyle}
           onClick={() => {
-            setTaskState(id);
+            removeTaskInState(id);
           }}
         />
-      )}
+        {!done ? (
+          <MdOutlineDoneOutline
+            color="#165955"
+            style={iconStyle}
+            onClick={() => {
+              setTaskState(id);
+            }}
+          />
+        ) : (
+          <MdRemoveDone
+            color="#165955"
+            style={iconStyle}
+            onClick={() => {
+              setTaskState(id);
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }
