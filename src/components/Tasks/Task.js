@@ -13,7 +13,6 @@ function Task({ label, done, id, setTaskState, removeTaskInState }) {
   const iconStyle = {
     backgroundColor: "rgba(255,255,255,0.8)",
     cursor: "pointer",
-    marginRight: "0.5em",
     borderRadius: "0.3em",
     width: "2em",
     height: "2em",
